@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:NourTimesNews.Models"
+             xmlns:vm="clr-namespace:NourTimesNews.ViewModels"
+             x:Class="NourTimesNews.MainPage"
+             x:Name="Page"
+             x:DataType="vm:ArticlesViewModel">
+
+    <Grid RowDefinitions="Auto, Auto, Auto, *"
+          ColumnDefinitions="*"
+          Padding="20">
+
+        <!-- Categories and Button -->
+        <Grid ColumnDefinitions="3*, *"
+              RowDefinitions="*"
+              Padding="20">
+
+            <Picker Grid.Column="0"
+                    ItemsSource="{Binding Categories}"
+                    SelectedItem="{Binding SelectedCategory}" />
+            <Button Grid.Column="1"
+                    Text="Search"
+                    BackgroundColor="DarkSlateGray"
+                    TextColor="White"
+                    Command="{Binding GetCommand}"
+                    Margin="0,0,0,10"/>
+        </Grid>
+
+        <!-- Title -->
+        <Border Grid.Row="2"
+                Padding="5"
+                Margin="5"
+                BackgroundColor="LightGray">
+            <Label Text="{Binding SelectedCategory, StringFormat='Latest News - {0}'}"
+                       FontSize="25"
+                       TextColor="DarkSlateGray"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
+        </Border>
+
+        <!-- Articles -->
+        <CollectionView Grid.Row="3" 
+                        ItemsSource="{Binding Articles}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Article">
+                    <Border StrokeThickness="1"
+                            Stroke="LightGray"
+                            Padding="10">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={x:Reference Page},
+                                                                    Path=BindingContext.GotoDetailCommand}"
+                                                   CommandParameter="{Binding .}" />
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="15">
+                            <Image HeightRequest="300"
+                                   Source="{Binding UrlToImage}"
+                                   Aspect="AspectFill" />
+                            <Label Text="{Binding Title}"
+                                   FontSize="Large"
+                                   FontAttributes="Bold" />
+                            <Label Text="{Binding Description}"
+                                   FontSize="Medium"
+                                   LineBreakMode="TailTruncation" />
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
