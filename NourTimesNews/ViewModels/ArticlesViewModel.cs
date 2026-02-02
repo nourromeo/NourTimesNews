@@ -9,8 +9,12 @@ namespace NourTimesNews.ViewModels
     public partial class ArticlesViewModel : BaseViewModel
     {
         private readonly NewsService newsService;
+
         [ObservableProperty]
-        ObservableCollection<Article> articles = new ObservableCollection<Article>();
+        ObservableCollection<Article> articles = new();
+
+        [ObservableProperty]
+        string selectedCategory = "general";
 
         public ObservableCollection<string> Categories { get; } =
             new ObservableCollection<string>
@@ -24,21 +28,18 @@ namespace NourTimesNews.ViewModels
                 "science"
             };
 
-        [ObservableProperty]
-        string selectedCategory = "general";
-
-
+        // Constructors
         public ArticlesViewModel()
         {
             this.newsService = new NewsService();
 
         }
-
         public ArticlesViewModel(NewsService newsService)
         {
             this.newsService = newsService;
         }
 
+        // Commands
         [RelayCommand]
         async Task Get()
         {
@@ -50,13 +51,12 @@ namespace NourTimesNews.ViewModels
                 articles.Add(article);
 
         }
-
-
         [RelayCommand]
         async Task GotoDetail(Article article)
         {
             if (article == null)
                 return;
+
             await Shell.Current.GoToAsync($"{nameof(DetailPage)}",
                 true,
                 new Dictionary<string, object>
@@ -64,7 +64,6 @@ namespace NourTimesNews.ViewModels
                     { "Article", article }
                 });
         }
-
 
     }
 }

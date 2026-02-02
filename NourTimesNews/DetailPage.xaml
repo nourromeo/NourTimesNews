@@ -4,8 +4,8 @@
              xmlns:vm="clr-namespace:NourTimesNews.ViewModels"
              x:DataType="vm:DetailsViewModel"
              x:Class="NourTimesNews.DetailPage">
-    
-    <VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout>
             <VerticalStackLayout Padding="20" Spacing="15">
                 <Label Text="{Binding Article.Title}"
                        FontSize="24"
@@ -24,5 +24,6 @@
                 <Label Text="{Binding Article.Content, 
                                       TargetNullValue='No content available'}" />
             </VerticalStackLayout>
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
